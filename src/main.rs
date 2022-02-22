@@ -5,6 +5,7 @@
  */
 extern crate rand;
 
+use clap::Parser;
 use rand::{
     Rng,
     thread_rng,
@@ -13,13 +14,12 @@ use rand::{
         Distribution,
     },
 };
-use std::iter::Iterator;
 use std::env::args;
 use std::io::{
     stdin,
     BufRead,
 };
-use std::str::FromStr;
+use std::iter::Iterator;
 
 
 
@@ -65,14 +65,23 @@ fn l<R, I, T>(iter: &mut I, size: usize, rng: &mut R) -> Vec<T>
 
 
 
+#[derive(Parser, Debug)]
+#[clap(author, version, about, long_about = None)]
+struct Args {
+    #[clap(short, long, default_value_t = 10)]
+    size: usize,
+}
+
+
+
 fn main() {
-    let size = args().nth(1).and_then(|s| FromStr::from_str(s.as_ref()).ok()).unwrap_or(1);
+    let args = Args::parse();
     let input = stdin();
     let mut input_lines = input.lock().lines().map(|r| r.unwrap());
     let mut rng = thread_rng();
     let samples = l(
         &mut input_lines,
-        size,
+        args.size,
         &mut rng);
     for sample in samples {
         println!("{}", sample);
