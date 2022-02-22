@@ -30,7 +30,7 @@ fn l<R, I, T>(iter: &mut I, size: usize, rng: &mut R) -> Vec<T>
         I: Iterator<Item=T>
 {
     let mut samples = fill(iter, size);
-    if (samples.len() < size) {
+    if samples.len() < size {
         // There isn't enough items to sample.
         // This is the maximum number of items we can get.
         return samples;
