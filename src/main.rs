@@ -48,11 +48,11 @@ enum Commands {
         #[clap(short, long, default_value_t = 10)]
         size: usize,
 
-        #[clap(name="weights' file name")]
-        weight_fn: String,
-
         #[clap(name="values' file name")]
         value_fn: String,
+
+        #[clap(name="weights' file name")]
+        weight_fn: String,
     },
 }
 
