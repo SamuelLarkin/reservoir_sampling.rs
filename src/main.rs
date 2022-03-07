@@ -177,7 +177,7 @@ fn main() {
 
 
 #[cfg(test)]
-mod tests {
+mod tests_l {
     use super::*;
 
     #[test]
@@ -193,14 +193,14 @@ mod tests {
     }
 
     #[test]
-    fn l_short() {
+    fn not_enough_population() {
         let mut rng = thread_rng();
         let result = l(&mut(0usize..5), 7, &mut rng);
         assert_eq!(result, (0usize..5).into_iter().collect::<Vec<_>>());
     }
 
     #[test]
-    fn l_long() {
+    fn sufficient_population_size() {
         let mut rng = thread_rng();
         let result = l(&mut(-100isize..100), 7, &mut rng);
         assert!(result.iter().all(|&v| -100 <= v && v < 100));
