@@ -16,7 +16,6 @@ use rand::{
         Distribution,
     },
 };
-use std::env::args;
 use std::io::{
     stdin,
     BufRead,
