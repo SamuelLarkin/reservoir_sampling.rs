@@ -2,6 +2,8 @@
  * [Reservoir sampling](https://en.wikipedia.org/wiki/Reservoir_sampling)
  * [reservoir-sampling](https://github.com/DesmondWillowbrook/rs-reservoir-sampling)
  * [reservoir-rs](https://github.com/npryce/reservoir-rs)
+ *
+ * cargo test -- --nocapture
  */
 extern crate rand;
 
