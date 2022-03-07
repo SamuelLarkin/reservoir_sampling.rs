@@ -11,3 +11,11 @@ authors = ["Samuel Larkin"]
 [dependencies]
 rand = "0.8.5"
 clap = { version = "3.1.1", features = ["derive"] }
+
+[[bin]]
+name = "reservoir_sampling"
+path = "src/main.rs"
+
+[lib]
+name = "reservoir_sampling"
+path = "src/lib.rs"
