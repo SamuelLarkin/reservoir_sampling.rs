@@ -206,3 +206,117 @@ mod tests_l {
         assert!(result.iter().all(|&v| -100 <= v && v < 100));
     }
 }
+
+
+
+#[cfg(test)]
+mod tests_a_exp_j {
+    use super::*;
+    use rand::distributions::{Alphanumeric, Uniform, Standard};
+    use std::iter::Zip;
+    use rand::rngs::ThreadRng;
+    use rand::distributions::DistIter;
+    use std::iter::Take;
+
+    fn generate_random<W, V>(w_size: usize, i_size: usize)
+        -> Zip<<W as IntoIterator>::IntoIter, <V as IntoIterator>::IntoIter>
+        where
+            //W: IntoIterator,
+            W: IntoIterator<IntoIter = std::iter::Take<DistIter<Standard, ThreadRng, f64>>>,
+            //V: IntoIterator,
+            V: IntoIterator<IntoIter = std::iter::Take<DistIter<Alphanumeric, ThreadRng, u8>>>,
+    {
+        let weights_rng = thread_rng();
+        let weights = (weights_rng).sample_iter(Standard).take(w_size);
+        let items_rng = thread_rng();
+        let items = (items_rng).sample_iter(Alphanumeric).take(i_size);
+        weights.zip(items)
+    }
+
+    #[test]
+    fn sfasdfa() {
+        // There is nothing in the stream.
+        let weights_rng = thread_rng();
+        let weights = (weights_rng).sample_iter(Standard).take(0);
+        let items_rng = thread_rng();
+        let items = (items_rng).sample_iter(Alphanumeric).take(0);
+        let samples = a_exp_j(
+            &mut weights.zip(items),
+            4,
+            &mut thread_rng(),
+            );
+        assert!(samples.len() == 0);
+    }
+
+    #[test]
+    fn empty() {
+        // There is nothing in the stream.
+        let samples = a_exp_j(
+            &mut vec![0.5; 0]
+                .into_iter()
+                .map(|x| x as f64)
+                .zip("".chars()),
+            4,
+            &mut thread_rng(),
+            );
+        assert!(samples.len() == 0);
+    }
+
+    #[test]
+    fn none() {
+        // Asking for ZERO sample.
+        let samples = a_exp_j(
+            &mut vec![0.5; 10]
+                .into_iter()
+                .map(|x| x as f64)
+                .zip((0..10).into_iter()),
+            0,
+            &mut thread_rng(),
+            );
+        assert!(samples.len() == 0);
+    }
+
+    #[test]
+    fn not_enough_population() {
+        // Asking for more samples than there are items in the stream.
+        let samples = a_exp_j(
+            &mut vec![0.5; 5]
+                .into_iter()
+                .map(|x| x as f64)
+                .zip((0..5).into_iter()),
+            7,
+            &mut thread_rng(),
+            );
+        assert!(samples.len() == 5);
+    }
+
+
+    #[test]
+    fn sufficient_population_size() {
+        // A normal use case scenario where m < n.
+        let samples = a_exp_j(
+            &mut vec![0.5; 10]
+                .into_iter()
+                .map(|x| x as f64)
+                .zip((0..10).into_iter()),
+            7,
+            &mut thread_rng(),
+            );
+        assert!(samples.len() == 7);
+    }
+
+
+    #[test]
+    fn samuel_larkin() {
+        let samples = a_exp_j(
+            &mut vec![0.5; 12]
+                .into_iter()
+                .map(|x| x as f64)
+                .zip("SamuelLarkin".chars()),
+            4,
+            &mut thread_rng(),
+            );
+        println!("SAMPLES: {:?}", samples);
+        assert!(samples.len() == 4);
+    }
+}
