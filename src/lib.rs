@@ -6,13 +6,12 @@
  * cargo test -- --nocapture
  */
 extern crate rand;
+use crate::rand::distributions::Distribution;
 
 use rand::{
     Rng,
-    thread_rng,
     distributions::{
         Uniform,
-        Distribution,
     },
 };
 use std::collections::BinaryHeap;
@@ -151,6 +150,7 @@ pub fn a_exp_j<R, I, T>(stream: &mut I, size: usize, rng: &mut R) -> Vec<T>
 #[cfg(test)]
 mod tests_l {
     use super::*;
+    use rand::thread_rng;
 
     #[test]
     fn fill_short() {
@@ -184,11 +184,21 @@ mod tests_l {
 #[cfg(test)]
 mod tests_a_exp_j {
     use super::*;
-    use rand::distributions::{Alphanumeric, Uniform, Standard};
-    use std::iter::Zip;
-    use rand::rngs::ThreadRng;
-    use rand::distributions::DistIter;
-    use std::iter::Take;
+    use rand::{
+        distributions::{
+            Alphanumeric,
+            DistIter,
+            Standard,
+        },
+        rngs::ThreadRng,
+        thread_rng,
+    };
+    use std::{
+        iter::{
+            Take,
+            Zip,
+        },
+    };
 
     fn generate_random<W, V>(w_size: usize, i_size: usize)
         -> Zip<<W as IntoIterator>::IntoIter, <V as IntoIterator>::IntoIter>

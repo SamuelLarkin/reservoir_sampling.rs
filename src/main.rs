@@ -7,14 +7,7 @@
  */
 
 use clap::Parser;
-use rand::{
-    Rng,
-    thread_rng,
-    distributions::{
-        Uniform,
-        Distribution,
-    },
-};
+use rand::thread_rng;
 use std::io::{
     stdin,
     BufRead,
