@@ -16,6 +16,7 @@ use rand::{
         Distribution,
     },
 };
+use std::collections::BinaryHeap;
 use std::io::{
     stdin,
     BufRead,
@@ -62,6 +63,90 @@ fn l<R, I, T>(iter: &mut I, size: usize, rng: &mut R) -> Vec<T>
     };
 
     samples
+}
+
+
+
+//#[derive(Eq, Ord, PartialOrd, PartialEq)]
+//#[derive(PartialOrd, PartialEq)]
+#[derive(Debug)]
+pub struct WeightedItem <T>
+{
+    weight: f64,
+    item: T,
+}
+
+
+impl<T> Ord for WeightedItem<T> {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.weight.partial_cmp(&other.weight).unwrap()
+    }
+}
+
+
+impl<T> PartialOrd for WeightedItem<T> {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        //Some(self.weight.partial_cmp(&other.weight))
+        self.weight.partial_cmp(&other.weight)
+    }
+}
+
+
+
+impl<T> PartialEq for WeightedItem<T> {
+    fn eq(&self, other: &Self) -> bool {
+        self.weight.eq(&other.weight)
+    }
+}
+
+
+impl<T> Eq for WeightedItem<T> {
+    fn assert_receiver_is_total_eq(&self) {}
+}
+
+
+
+fn a_exp_j<R, I, T>(stream: &mut I, size: usize, rng: &mut R) -> Vec<T>
+    where
+        R: Rng + ?Sized,
+        I: Iterator<Item=(f64, T)>,
+        T: std::cmp::Ord + std::fmt::Debug
+{
+    if size == 0 {
+        return vec![];
+    }
+
+    // NOTE that BinaryHead is a maxHeap so we change the polarity of the weights/keys to make it a
+    // minHeap.
+    let mut heap = stream
+        .into_iter()
+        .take(size)
+        .map(|(w, item)| WeightedItem {
+            weight: -rng.gen::<f64>().powf(1. / w),
+            item: item,
+        })
+        .collect::<BinaryHeap<WeightedItem<T>>>();
+
+    if let Some(min) = heap.peek() {
+        //println!("Weighted sampling...");
+        //println!("HEAP: {:?}", heap);
+        //println!("H.min: {:?}", min.weight);
+        let mut X = rng.gen::<f64>().ln() / -min.weight;
+        for (weight, item) in stream {
+            //println!("X {:?} w: {:?} i: {:?}", X, weight, item);
+            X += weight;
+            if X <= 0. {
+                let t = (-heap.pop().unwrap().weight).powf(weight);
+                let r = rng.gen_range(t..1.).powf(1. / weight);
+                heap.push(WeightedItem {weight: -r, item: item});
+
+                X = rng.gen::<f64>().ln() / -heap.peek().unwrap().weight;
+            }
+        }
+    }
+    //println!("HEAP: {:?}", heap);
+
+    heap.into_iter().map(|x| x.item).collect()
 }
 
 
