@@ -1,16 +1,21 @@
 # [Make a Combined Library and Binary Project in Rust](https://dev.to/yjdoc2/make-a-combined-library-and-binary-project-in-rust-d4f)
 
 [package]
-name = "reservoir_sampling"
-version = "0.1.0"
+authors = ["Samuel Larkin <Samuel.Larkin@cnrc-nrc.gc.ca>"]
+categories = [ "command-line-utilities", "library" ]
+description = "A tool to perform un/weighted reservoir sampling"
 edition = "2021"
-authors = ["Samuel Larkin"]
+keywords = [ "Sampling", "CLI" ]
+name = "reservoir_sampling"
+readme = "README.md"
+repository = "https://github.com/SamuelLarkin/reservoir_sampling_rs.git"
+version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-rand = "0.8.5"
 clap = { version = "3.1.1", features = ["derive"] }
+rand = "0.8.5"
 
 [[bin]]
 name = "reservoir_sampling"
