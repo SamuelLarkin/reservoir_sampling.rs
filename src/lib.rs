@@ -203,10 +203,8 @@ mod tests_a_exp_j {
     fn generate_random<W, V>(w_size: usize, i_size: usize)
         -> Zip<<W as IntoIterator>::IntoIter, <V as IntoIterator>::IntoIter>
         where
-            //W: IntoIterator,
-            W: IntoIterator<IntoIter = std::iter::Take<DistIter<Standard, ThreadRng, f64>>>,
-            //V: IntoIterator,
-            V: IntoIterator<IntoIter = std::iter::Take<DistIter<Alphanumeric, ThreadRng, u8>>>,
+            W: IntoIterator<IntoIter = Take<DistIter<Standard, ThreadRng, f64>>>,
+            V: IntoIterator<IntoIter = Take<DistIter<Alphanumeric, ThreadRng, u8>>>,
     {
         let weights_rng = thread_rng();
         let weights = (weights_rng).sample_iter(Standard).take(w_size);
