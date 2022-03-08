@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-readonly python="~/git/reservoir_sampling/reservoir_sampling/reservoir_sampling.py"
+readonly python="reservoir_sampling"
 readonly sample_sizes=1000,5000,10000
 readonly max_stream_size=500000
 readonly src=${1:-$PORTAGE/corpora/bac-lac.2021/bitextor_2018/201808/permanent/en-fr.deduped.txt.gz}
