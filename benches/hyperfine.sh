@@ -21,4 +21,4 @@ hyperfine \
    "$python weighted --size {sample_size} $tmp_src <(cut -f 8 < $tmp_src)" \
    "cargo run --release weighted --size {sample_size} $tmp_src <(cut -f 8 < $tmp_src)" \
    | tee \
-   > hyperfine.text.json.results
+   > hyperfine.text.results
