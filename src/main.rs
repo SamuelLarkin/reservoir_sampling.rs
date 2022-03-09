@@ -94,9 +94,12 @@ fn read_lines<P>(filename: P) -> io::Result<io::Lines<BufReader<File>>>
 /// Return an open file or stdin if no filename.
 fn get_reader(filename: &Option<String>) -> Box<dyn BufRead>
 {
+    // https://stackoverflow.com/a/49964042
+    // https://www.reddit.com/r/rust/comments/jv3q3e/comment/gci1mww/?utm_source=share&utm_medium=web2x&context=3
     match filename {
         None => Box::new(BufReader::new(io::stdin())),
-        Some(filename) => Box::new(BufReader::new(File::open(filename).unwrap()))
+        Some(filename) if filename == "-"  => Box::new(BufReader::new(io::stdin())),
+        Some(filename) => Box::new(BufReader::new(File::open(filename).unwrap())),
     }
 }
 
@@ -120,8 +123,6 @@ fn main() {
     match &args.command {
         Commands::Unweighted { size, seed, population_fn } => {
             let mut rng = get_rng(seed);
-            // https://stackoverflow.com/a/49964042
-            // https://www.reddit.com/r/rust/comments/jv3q3e/comment/gci1mww/?utm_source=share&utm_medium=web2x&context=3
             let population = get_reader(population_fn);
 
             let samples = l(
