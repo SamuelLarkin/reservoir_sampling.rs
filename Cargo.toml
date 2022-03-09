@@ -15,7 +15,7 @@ version = "0.1.0"
 
 [dependencies]
 clap = { version = "3.1.1", features = ["derive"] }
-rand = "0.8.5"
+rand = { version = "0.8.5", features = ["small_rng"] }
 
 [[bin]]
 name = "reservoir_sampling"
