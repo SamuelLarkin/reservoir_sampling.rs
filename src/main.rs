@@ -58,6 +58,7 @@ enum Commands {
     },
 
     #[clap(arg_required_else_help = false)]
+    /// Weighted reservoir sampling
     Weighted {
         /// Seed for reproducibility
         #[clap(long, parse(try_from_str))]
