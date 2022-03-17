@@ -5,6 +5,21 @@ It allows perform weighted or unweighted sampling.
 Constructive comments are welcome.
 
 
+## Install
+```bash
+cargo \
+   install \
+      --root ~/.local
+      --git https://github.com/SamuelLarkin/reservoir_sampling_rs.git
+```
+or
+```bash
+cargo \
+   install \
+      --root ~/.local
+```
+
+
 ## Speed Tests
 Let use a fairly big file to do some tests.
 
