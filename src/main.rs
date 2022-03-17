@@ -41,7 +41,7 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
-    #[clap(arg_required_else_help=false)]
+    #[clap(arg_required_else_help=false, visible_alias="uw")]
     /// Unweighted resevoir sampling
     Unweighted {
         /// Seed for reproducibility
@@ -57,7 +57,7 @@ enum Commands {
         population_fn: Option<String>,
     },
 
-    #[clap(arg_required_else_help = false)]
+    #[clap(arg_required_else_help=false, visible_alias="w")]
     /// Weighted reservoir sampling
     Weighted {
         /// Seed for reproducibility
