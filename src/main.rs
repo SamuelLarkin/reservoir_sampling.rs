@@ -45,7 +45,7 @@ enum Commands {
     /// Unweighted resevoir sampling
     Unweighted {
         /// Seed for reproducibility
-        #[clap(short, long, parse(try_from_str))]
+        #[clap(long, parse(try_from_str))]
         seed: Option<u64>,
 
         /// Sample size
@@ -60,7 +60,7 @@ enum Commands {
     #[clap(arg_required_else_help = false)]
     Weighted {
         /// Seed for reproducibility
-        #[clap(short, long, parse(try_from_str))]
+        #[clap(long, parse(try_from_str))]
         seed: Option<u64>,
 
         /// Sample size
