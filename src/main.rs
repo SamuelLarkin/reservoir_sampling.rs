@@ -35,6 +35,14 @@ use reservoir_sampling::{
 struct Cli {
     #[clap(subcommand)]
     command: Commands,
+
+    /// Seed for reproducibility
+    #[clap(long, parse(try_from_str))]
+    seed: Option<u64>,
+
+    /// Sample size
+    #[clap(short, long, default_value_t=10)]
+    size: usize,
 }
 
 
@@ -44,14 +52,6 @@ enum Commands {
     #[clap(arg_required_else_help=false, visible_alias="uw")]
     /// Unweighted resevoir sampling
     Unweighted {
-        /// Seed for reproducibility
-        #[clap(long, parse(try_from_str))]
-        seed: Option<u64>,
-
-        /// Sample size
-        #[clap(short, long, default_value_t=10)]
-        size: usize,
-
         /// Population file name.
         #[clap(name="population's file name")]
         population_fn: Option<String>,
@@ -60,14 +60,6 @@ enum Commands {
     #[clap(arg_required_else_help=false, visible_alias="w")]
     /// Weighted reservoir sampling
     Weighted {
-        /// Seed for reproducibility
-        #[clap(long, parse(try_from_str))]
-        seed: Option<u64>,
-
-        /// Sample size
-        #[clap(short, long, default_value_t=10)]
-        size: usize,
-
         /// Population file name.
         #[clap(name="population's file name")]
         population_fn: String,
@@ -121,21 +113,20 @@ fn get_rng(seed: &Option<u64>) -> SmallRng
 
 fn main() {
     let args = Cli::parse();
+    let mut rng = get_rng(&args.seed);
     match &args.command {
-        Commands::Unweighted { size, seed, population_fn } => {
-            let mut rng = get_rng(seed);
+        Commands::Unweighted { population_fn } => {
             let population = get_reader(population_fn);
 
             let samples = l(
                 &mut population.lines().map(|v| v.unwrap()),
-                *size,
+                args.size,
                 &mut rng);
             for sample in samples {
                 println!("{}", sample);
             }
         }
-        Commands::Weighted { size, seed, weight_fn, population_fn } => {
-            let mut rng = get_rng(seed);
+        Commands::Weighted { weight_fn, population_fn } => {
             let weights = read_lines(weight_fn)
                 .unwrap()
                 .map(Result::unwrap)
@@ -147,7 +138,7 @@ fn main() {
 
             let samples = a_exp_j(
                 &mut weighted_samples,
-                *size,
+                args.size,
                 &mut rng);
             for sample in samples {
                 println!("{}", sample);

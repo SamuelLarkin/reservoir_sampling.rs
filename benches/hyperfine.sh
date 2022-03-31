@@ -23,9 +23,9 @@ function speedtest {
       --style full \
       --parameter-list sample_size $sample_sizes \
       "$python unweighted --size {sample_size} $tmp_src" \
-      "cargo run --release unweighted --size {sample_size} < $tmp_src" \
+      "cargo run --release -- --size {sample_size} unweighted < $tmp_src" \
       "$python weighted --size {sample_size} $tmp_src <(cut -f 8 < $tmp_src)" \
-      "cargo run --release weighted --size {sample_size} $tmp_src <(cut -f 8 < $tmp_src)"
+      "cargo run --release -- --size {sample_size} weighted $tmp_src <(cut -f 8 < $tmp_src)"
 }
 
 
