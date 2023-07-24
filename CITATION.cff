@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "A simple reimplementation of reservoir sampling in Rust."
+authors:
+- family-names: "Larkin"
+  given-names: "Samuel"
+title: "A Rust Implementation of Reservoir Sampling"
+version: 332bbd1
+date-released: 2023-07-24
+url: "https://github.com/SamuelLarkin/reservoir_sampling.rs"
