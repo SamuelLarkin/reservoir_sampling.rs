@@ -1,9 +1,21 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
 cff-version: 1.2.0
-message: "A simple reimplementation of reservoir sampling in Rust."
+title: A Rust Implementation of Reservoir Sampling.
+message: A simple reimplementation of reservoir sampling in Rust.
+type: software
 authors:
-- family-names: "Larkin"
-  given-names: "Samuel"
-title: "A Rust Implementation of Reservoir Sampling"
-version: 332bbd1
-date-released: 2023-07-24
-url: "https://github.com/SamuelLarkin/reservoir_sampling.rs"
+  - given-names: Samuel
+    family-names: Larkin
+repository-code: 'https://github.com/SamuelLarkin/reservoir_sampling.rs'
+url: 'https://github.com/SamuelLarkin/reservoir_sampling.rs'
+keywords:
+  - Rust
+  - Sampling
+  - NLP
+  - Natural Language Processing
+license: MIT
+commit: 332bbd1
+version: '0.1'
+date-released: '2023-07-24'
