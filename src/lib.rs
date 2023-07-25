@@ -116,7 +116,7 @@ pub fn a_exp_j<R, I, T>(stream: &mut I, size: usize, rng: &mut R) -> Vec<T>
         return vec![];
     }
 
-    // NOTE that BinaryHead is a maxHeap so we change the polarity of the weights/keys to make it a
+    // NOTE that BinaryHeap is a maxHeap so we change the polarity of the weights/keys to make it a
     // minHeap.
     let mut heap = stream
         .into_iter()
