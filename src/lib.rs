@@ -44,12 +44,16 @@ pub fn l<R, I, T>(iter: &mut I, size: usize, rng: &mut R) -> Vec<T>
     let random_index = Uniform::new(0, size);
 
     let mut w: f64 = (rng.gen::<f64>().ln() / size as f64).exp();
-    let mut i = size;
 
     loop {
-        i += (rng.gen::<f64>().ln() / (1.0 - w).ln()).floor() as usize + 1;
+        // NOTE: 'steps_until_next_candidate` formerly known as `i`.
+        // NOTE: Difference with the original algorithm.  Since we are using `iter.nth()`, `i`
+        // represents the distance until the next candidate and NOT it position in the stream.
+        //i = (rng.gen::<f64>().ln() / (1.0 - w).ln()).floor() as usize + 1;
+        // NOTE: Since `iter.nth(0)` returns the next item, we've dropped the `+ 1`.
+        let steps_until_next_candidate = (rng.gen::<f64>().ln() / (1.0 - w).ln()).floor() as usize;
 
-        match iter.nth(i) {
+        match iter.nth(steps_until_next_candidate) {
             Some(n) => {
                 samples[random_index.sample(rng)] = n;
                 w *= (rng.gen::<f64>().ln() / size as f64).exp();
