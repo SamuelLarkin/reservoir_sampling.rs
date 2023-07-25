@@ -9,7 +9,7 @@ Constructive comments are welcome.
 ```bash
 cargo \
    install \
-      --root ~/.local
+      --root ~/.local \
       --git https://github.com/SamuelLarkin/reservoir_sampling_rs.git
 ```
 or
