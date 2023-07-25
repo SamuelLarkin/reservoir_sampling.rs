@@ -37,6 +37,7 @@ pub fn l<R, I, T>(iter: &mut I, size: usize, rng: &mut R) -> Vec<T>
     if samples.len() < size {
         // There isn't enough items to sample.
         // This is the maximum number of items we can get.
+        eprintln!("WARN: Population smaller than sample size");
         return samples;
     }
 
