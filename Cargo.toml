@@ -18,7 +18,7 @@ clap = { version = "3.1.1", features = ["derive"] }
 rand = { version = "0.8.5", features = ["small_rng"] }
 
 [[bin]]
-name = "reservoir_sampling"
+name = "reservoir_sampling_rs"
 path = "src/main.rs"
 
 [lib]
