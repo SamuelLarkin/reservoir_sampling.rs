@@ -111,7 +111,20 @@ fn get_rng(seed: &Option<u64>) -> SmallRng
 
 
 
+fn iter_nth() {
+    let mut iter = 0usize..100;
+    loop {
+        match iter.nth(1) {
+            Some(n) => {
+                println!("{}", n);
+            }
+            None => break,
+        }
+    }
+}
+
 fn main() {
+    //iter_nth();
     let args = Cli::parse();
     let mut rng = get_rng(&args.seed);
     match &args.command {
